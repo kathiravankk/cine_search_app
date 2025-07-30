@@ -30,13 +30,14 @@ class MovieListView extends StatefulWidget {
 class _MovieListViewState extends State<MovieListView> {
   @override
   void initState() {
+    searchController.text = "avengers";
     getMoviesData();
     super.initState();
   }
 
   void getMoviesData() {
     MovieDetailBloc movieBloc = BlocProvider.of<MovieDetailBloc>(context);
-    movieBloc.add(GetMovieDetailEvent("avengers"));
+    movieBloc.add(GetMovieDetailEvent(searchController.text));
   }
 
   final searchController = TextEditingController();
@@ -154,7 +155,11 @@ class _MovieListViewState extends State<MovieListView> {
               child: BlocBuilder<MovieDetailBloc, MovieDetailState>(
                 builder: (context, state) {
                   if (state is MovieDetailLoading) {
-                    return const Center(child: CircularProgressIndicator());
+                    return const Center(
+                      child: CircularProgressIndicator(
+                        color: AppThemeManager.primaryColor,
+                      ),
+                    );
                   }
 
                   if (state is MovieDetailSuccess) {
@@ -163,19 +168,25 @@ class _MovieListViewState extends State<MovieListView> {
                       gridDelegate:
                           const SliverGridDelegateWithFixedCrossAxisCount(
                             crossAxisCount: 2,
-                            childAspectRatio: 0.65,
+                            childAspectRatio: 0.70,
                             crossAxisSpacing: 12,
-                            mainAxisSpacing: 16,
+                            mainAxisSpacing: 10,
                           ),
                       itemCount: state.responseModel.search!.length ?? 0,
                       itemBuilder: (context, index) {
                         final movie = state.responseModel.search![index];
                         return MovieProfileWidget(
-                          viewFunction: (){
-                            Navigator.push(context, MaterialPageRoute(builder: (context) => MovieDetailsViewScreen(
-                              movieName: movie.title!,
-                              imDbNum: movie.imdbID!,
-                            ),));
+                          viewFunction: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => MovieDetailsViewScreen(
+                                  movieName: movie.title!,
+                                  imDbNum: movie.imdbID!,
+                                  moviePoster: movie.poster!,
+                                ),
+                              ),
+                            );
                           },
                           imageUrl: movie.poster!,
                           movieTitle: movie.title!,
@@ -185,7 +196,25 @@ class _MovieListViewState extends State<MovieListView> {
                     );
                   }
 
-                  return const Center(child: CircularProgressIndicator());
+                  return Center(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Image.asset(
+                          IconImages.emptyImage,
+                          height: 100,
+                          width: 100,
+                        ),
+                        Text(
+                          "No Results Found",
+                          style: AppThemeManager.customTextStyleWithSize(
+                            size: 14,
+                            color: Colors.white,
+                          ),
+                        ),
+                      ],
+                    ),
+                  );
                 },
               ),
             ),

@@ -13,7 +13,7 @@ class MovieDetailBloc extends Bloc<MovieDetailEvent, MovieDetailState> {
       }
       if(event is ViewMovieEvent){
         emit(ViewMovieLoading());
-        emit(await fetchMovieDetail(event.imdbID));
+        emit(await getViewMovie(event.imdbID));
       }
 
     });

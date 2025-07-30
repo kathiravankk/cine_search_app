@@ -20,6 +20,14 @@ class MovieProfileWidget extends StatelessWidget {
           ClipRRect(
             borderRadius: BorderRadius.circular(12),
             child: Image.network(
+              errorBuilder: (context, error, stackTrace) => Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(12),
+                  color: AppThemeManager.hintColor
+                ),
+                height: 180,
+                width: double.infinity,
+              ),
               imageUrl,
               height: 180,
               width: double.infinity,
@@ -29,7 +37,8 @@ class MovieProfileWidget extends StatelessWidget {
           const SizedBox(height: 5,),
           Text(
             movieTitle,
-            maxLines: 2,
+            maxLines: 1,
+            softWrap: true,
             overflow: TextOverflow.ellipsis,
             style: AppThemeManager.customTextStyleWithSize(
               size: 12,
