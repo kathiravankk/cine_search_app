@@ -48,6 +48,7 @@ class _MovieListViewState extends State<MovieListView> {
       backgroundColor: AppThemeManager.backGroundColor,
       body: Column(
         children: [
+          SizedBox(height: 30,),
           Padding(
             padding: const EdgeInsets.all(10),
             child: Row(

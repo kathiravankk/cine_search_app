@@ -19,14 +19,12 @@ class MyApp extends StatelessWidget {
         statusBarBrightness: Brightness.light,
       ),
     );
-    return SafeArea(
-      child: GestureDetector(
-        onTap: () => FocusScope.of(context).unfocus(),
-        child: MaterialApp(
-          debugShowCheckedModeBanner: false,
-          title: 'CineSearch App',
-          home: const MovieListScreen(),
-        ),
+    return GestureDetector(
+      onTap: () => FocusScope.of(context).unfocus(),
+      child: MaterialApp(
+        debugShowCheckedModeBanner: false,
+        title: 'CineSearch App',
+        home: const MovieListScreen(),
       ),
     );
   }
